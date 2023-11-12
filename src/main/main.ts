@@ -3,8 +3,13 @@ import {join} from 'path';
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    minWidth: 1100,
+    minHeight: 700,
+    width: 700,
+    height: 500,
+    autoHideMenuBar: true,
+    titleBarStyle: 'hiddenInset',
+    titleBarOverlay: true,
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -12,9 +17,9 @@ function createWindow () {
     }
   });
   
-  mainWindow.maximize();
 
   if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
     const rendererPort = process.argv[2];
     mainWindow.loadURL(`http://localhost:${rendererPort}`);
   }
