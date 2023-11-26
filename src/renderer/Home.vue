@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Card from "./components/Card.vue";
 import GameDetail from "./components/GameDetail.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 defineEmits(['closeGameDetails'])
 
