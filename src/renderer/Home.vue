@@ -3,6 +3,7 @@ import Card from "./components/Card.vue";
 import GameDetail from "./components/GameDetail.vue";
 import {onMounted, ref} from "vue";
 import {store} from "./store";
+import Game from "./models/Game";
 
 let search = ref('');
 let gameList = ref([]);
@@ -23,69 +24,6 @@ function searchGame() {
 
 defineEmits(['closeGameDetails'])
 
-let modes = [
-  {
-    year: 1,
-    season: 1,
-    name: 'Black Ice'
-  },
-  {
-    year: 1,
-    season: 2,
-    name: 'Dust Line'
-  },
-  {
-    year: 1,
-    season: 3,
-    name: 'Skull Rain'
-  },
-  {
-    year: 1,
-    season: 4,
-    name: 'Red Crow'
-  },
-  {
-    year: 2,
-    season: 1,
-    name: 'Velvet Shell'
-  },
-  {
-    year: 2,
-    season: 2,
-    name: 'Operation Health'
-  },
-  {
-    year: 2,
-    season: 3,
-    name: 'Blood Orchid'
-  },
-  {
-    year: 2,
-    season: 4,
-    name: 'White Noise'
-  },
-  {
-    year: 3,
-    season: 1,
-    name: 'Operation Chimera'
-  },
-  {
-    year: 3,
-    season: 2,
-    name: 'Para Bellum'
-  },
-  {
-    year: 3,
-    season: 3,
-    name: 'Grim Sky'
-  },
-  {
-    year: 3,
-    season: 4,
-    name: 'Wind Bastion'
-  },
-]
-
 function formatYearSeason(year: number, season: number, img: boolean) {
   if (img) {
     return "Y" + year + "S" + season;
@@ -95,12 +33,14 @@ function formatYearSeason(year: number, season: number, img: boolean) {
 }
 
 const showDetails = ref(false);
-let gameSelected;
+let gameSelected = ref({} as Game);
 
-function openGameDetails(mode: object) {
-  gameSelected = mode;
+function openGameDetails(game: Game) {
+  console.log("openGameDetails ", game);
+  console.log("openGameDetails ", game.titre);
+  gameSelected.value = game;
+  console.log("gameSelected ", gameSelected);
   showDetails.value = true;
-  console.log(gameSelected)
 }
 
 function closeGameDetails() {
@@ -108,12 +48,12 @@ function closeGameDetails() {
 }
 </script>
 <template>
-  <div class="p-4 sm:ml-64 relative">
+  <div class="p-4 sm:ml-64">
     <form class="space-y-4 md:space-y-6" @submit.prevent="searchGame">
-      <div>
-        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search game</label>
-        <input v-model="search" type="text" name="search" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
-        <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+      <label for="email" class="block mb-2 text-sm font-medium text-white">Rechercher un jeu</label>
+      <div class="flex gap-1">
+        <input v-model="search" type="text" name="search" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nom de votre jeu" required="">
+        <button type="submit" class="flex-1 w-full text-white bg-blue-700  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Rechercher</button>
       </div>
     </form>
     <div class="p-6">
